@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1143f9ec-7776-40c9-bdf0-aef62318c58b" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="splunk-mule-integration-testingFlow" doc:id="22c0cbb7-58d5-4b0c-9aef-bcdd28998eb0" >
+		<http:listener doc:name="Listener" doc:id="2067e903-e56f-4fc3-a335-4b7c50d51823" config-ref="HTTP_Listener_config" path="test"/>
+		<logger level="INFO" doc:name="Logger" doc:id="2782817c-1d47-440e-bad0-6832fbf6b963" message="start of flow" category="Splunk.Logger"/>
+		<ee:transform doc:name="Transform Message" doc:id="a208d1e7-5b69-4c3b-bf17-c1583e80adda" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+
+"Welcome to Splunk"
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="7fc4383b-1df6-4e74-8094-1b5241078435" message="end log#[payload]" category="Splunk.Logger"/>
+	</flow>
+</mule>
